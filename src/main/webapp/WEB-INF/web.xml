@@ -13,13 +13,25 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
+	<servlet>
+		<servlet-name>rss</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rss</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>RssRequestHandler</servlet-name>
 		<servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>RssRequestHandler</servlet-name>
 		<url-pattern>/rss</url-pattern>
-		<load-on-startup>1</load-on-startup>
 	</servlet-mapping>
+
 </web-app>
