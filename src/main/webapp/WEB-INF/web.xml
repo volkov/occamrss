@@ -1,18 +1,25 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
 
-<web-app>
 	<display-name>Archetype Created Web Application</display-name>
-	
-	<servlet>
-		<servlet-name>rss</servlet-name>
-		<servlet-class>svolkov.RssServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>RssRequestHandler</servlet-name>
+		<servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
-		<servlet-name>rss</servlet-name>
+		<servlet-name>RssRequestHandler</servlet-name>
 		<url-pattern>/rss</url-pattern>
+		<load-on-startup>1</load-on-startup>
 	</servlet-mapping>
 </web-app>

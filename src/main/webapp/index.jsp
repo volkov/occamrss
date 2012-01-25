@@ -19,7 +19,7 @@ pageEncoding="UTF-8"
 </head>
 <body>
 <h1>Occam RSS Aggregator</h1>
-
+<h2><%= provider.getLastUpdate() %></h2>
 <table border=2>
 <%
     for ( SyndEntry entry : entries ) {
