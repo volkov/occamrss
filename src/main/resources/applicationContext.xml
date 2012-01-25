@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+
+	<bean id="FeedDownloader" class="svolkov.FeedDownloader">
+		<constructor-arg value="feeds"/>
+		<property name="threads" value="10" />
+		<property name="maxDownloadTime" value="3600" />
+	</bean>
+
+	<bean id="FeedStorage" class="svolkov.FeedStorage">
+		<property name="size" value="100" />
+	</bean>
+
+	<bean id="FeedProvider" class="svolkov.FeedProvider" init-method="init">
+		<property name="feedDownloader">
+			<ref local="FeedDownloader" />
+		</property>
+		<property name="feedStorage">
+			<ref local="FeedStorage" />
+		</property>
+		<property name="minDelay" value="20" />
+		<property name="maxDelay" value="60" />
+	</bean>
+
+</beans>
