@@ -6,6 +6,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+/**
+ * Controller between FeedProvider and jsp view.
+ * @author Sergey Volkov
+ *
+ */
 public class RssController implements Controller {
 	
 	private FeedProvider feedProvider;

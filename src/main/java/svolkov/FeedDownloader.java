@@ -19,19 +19,39 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
+/**
+ * Class for downloading feed entries.
+ * @author Sergey Volkov
+ *
+ */
 public class FeedDownloader {
 
 	private static final Logger LOG = Logger.getLogger(FeedDownloader.class);
-
+	
+	/**
+	 * Number of threads for uploading and parsing.
+	 */
 	private int threads = 10;
 
+	/**
+	 * Timelimit for downloading.
+	 */
 	private int maxDownloadTime = 1000;
 
+	/**
+	 * List of feed URLs.
+	 */
 	private List<URL> feeds = new ArrayList<URL>();
 
 	public FeedDownloader() {
 	}
 
+	/**
+	 * Create instance with feed URLs from classpath resource.
+	 * @param fileName
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
 	public FeedDownloader(String fileName) throws MalformedURLException,
 			IOException {
 
@@ -45,6 +65,10 @@ public class FeedDownloader {
 		LOG.info("Loaded feeds from " + fileName);
 	}
 
+	/**
+	 * Downloads entries from feeds.
+	 * @return
+	 */
 	public List<SyndEntry> getEntries() {
 		final List<SyndEntry> result = Collections
 				.synchronizedList(new ArrayList<SyndEntry>());
@@ -80,18 +104,6 @@ public class FeedDownloader {
 		}
 		LOG.info("Done downloading");
 		return result;
-	}
-
-	public static void main(String[] args) throws MalformedURLException {
-		FeedDownloader downloader = new FeedDownloader();
-		downloader.getFeeds().add(new URL("http://lenta.ru/rss"));
-		downloader.getFeeds().add(
-				new URL("http://www.gazeta.ru/export/rss/first.xml"));
-		for (SyndEntry entry : downloader.getEntries()) {
-			System.out.println(entry.getTitle());
-		}
-		System.out.println("done");
-
 	}
 
 	/**

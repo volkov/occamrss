@@ -13,10 +13,15 @@ import org.springframework.web.HttpRequestHandler;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedOutput;
 
+/**
+ * Servlet for getting rss feed in xml format.
+ * @author Sergey Volkov
+ *
+ */
 public class RssRequestHandler implements HttpRequestHandler {
 
 	private static final Logger LOG = Logger.getLogger(RssRequestHandler.class);
-
+	
 	private FeedProvider feedProvider;
 
 	@Override

@@ -9,12 +9,23 @@ import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.feed.synd.SyndFeedImpl;
 
+/**
+ * Class for managing feed entries. 
+ * @author Sergey Volkov
+ *
+ */
 public class FeedProvider {
 
 	private static final Logger LOG = Logger.getLogger(FeedProvider.class);
 
+	/**
+	 * Thread for update entries every maxDelay.
+	 * @author Sergey Volkov
+	 *
+	 */
 	private class UpdateDaemon extends Thread {
-
+		
+		@Override
 		public void run() {
 			LOG.info("Start update daemon");
 			while (true) {
@@ -34,6 +45,10 @@ public class FeedProvider {
 			}
 		}
 
+		/**
+		 * Returns milliseconds before maxDelay exceeds.
+		 * @return
+		 */
 		private long getTimeToUpdate() {
 			long timeToUpdate = getLastUpdate().getTime()
 					- System.currentTimeMillis() + maxDelay * 1000;
@@ -44,17 +59,35 @@ public class FeedProvider {
 		}
 
 	}
-
+	
+	/**
+	 * Stores time when entries were updated last time.
+	 */
 	private Date lastUpdate = new Date(0);
 
+	/**
+	 * Minimum delay between entries updates.
+	 */
 	private int minDelay;
 
+	/**
+	 * Maximum delay between entries updates.
+	 */
 	private int maxDelay;
 
+	/**
+	 * Stores and manage entries.
+	 */
 	private FeedStorage feedStorage;
 
+	/**
+	 * Downloads entries.
+	 */
 	private FeedDownloader feedDownloader;
 
+	/**
+	 * Inits UpdateDaemon if neseccary.
+	 */
 	public void init() {
 		if (maxDelay > 0) {
 			UpdateDaemon daemon = new UpdateDaemon();
@@ -63,11 +96,17 @@ public class FeedProvider {
 		}
 	}
 
+	/**
+	 * @return updated entry list.
+	 */
 	public List<SyndEntry> getEntries() {
 		update();
 		return feedStorage.getEntries();
 	}
 
+	/**
+	 * @return feed from entry list.
+	 */
 	public SyndFeed getFeed() {
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("rss_2.0");
@@ -77,7 +116,11 @@ public class FeedProvider {
 		feed.setEntries(getEntries());
 		return feed;
 	}
-
+	
+	/**
+	 * Downloads and adds new entries if minDelay passed.
+	 * @return
+	 */
 	private boolean update() {
 		if (hasToUpdate()) {
 			synchronized (feedStorage) {
@@ -91,7 +134,11 @@ public class FeedProvider {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Checks if minDelay passed.
+	 * @return 
+	 */
 	private boolean hasToUpdate() {
 		return System.currentTimeMillis() - getLastUpdate().getTime() > minDelay * 1000;
 	}
